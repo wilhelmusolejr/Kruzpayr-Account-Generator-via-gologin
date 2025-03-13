@@ -1,5 +1,6 @@
 import axios from "axios";
 import generateAccountData from "./account_info_gen.js";
+import { writeCSV, readCSV } from "./database_reader.js";
 
 let account_data = generateAccountData();
 
@@ -54,8 +55,30 @@ async function registerUser(account_data) {
     });
 
     if (response.data.message === "OK") {
-      console.log("✅ Registration Successful:", response.data);
-      console.log("    Account Info:", account_data);
+      console.log("✅ Registration Successful");
+
+      const currentDate = new Date();
+      const options = { month: "long", day: "numeric", year: "numeric" };
+      const formattedDate = currentDate.toLocaleDateString("en-US", options);
+
+      let accounts = await readCSV("accounts_database.csv");
+      accounts.push({
+        USERNAME: account_data.user_id,
+        PASSWORD: account_data.user_password,
+        IGN: "undefined",
+        REGISTER_DATE: formattedDate,
+        ECOIN: "undefined",
+        FIRSTNAME: account_data.first_name,
+        LASTNAME: account_data.last_name,
+        EMAIL: account_data.email,
+        Q_ANSWER: account_data.question_answer,
+        BIRTHDATE: account_data.birth_dt,
+        ACCESS_TOKEN: response.data.value.access_token,
+        REFRESH_TOKEN: response.data.value.refresh_token,
+        NICKNAME: response.data.value.nickname,
+      });
+
+      await writeCSV("accounts_database.csv", accounts);
     }
   } catch (error) {
     console.error(

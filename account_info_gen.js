@@ -77,20 +77,9 @@ function generateAccountData() {
   let password = `eloeloelo1`;
   let email = `${firstName}${lastName}@gmail.com`;
 
-  let month = Math.floor(Math.random() * 10) + 1;
-  let day = Math.floor(Math.random() * 10) + 1;
+  let month = Math.floor(Math.random() * (10 - 12 + 1)) + 12;
+  let day = Math.floor(Math.random() * (29 - 20 + 1)) + 20;
   let year = Math.floor(Math.random() * (2001 - 1990 + 1)) + 1990;
-
-  // const payload = {
-  //   user_id: username.toLowerCase(),
-  //   user_password: password.toLowerCase(),
-  //   email: email.toLowerCase(),
-  //   first_name: firstName.toLowerCase(),
-  //   last_name: lastName.toLowerCase(),
-  //   birth_dt: `${year}-${month}-${day}`,
-  //   question_code: 1,
-  //   question_answer: randomSurname.toLowerCase(),
-  // };
 
   return {
     user_id: username.toLowerCase(),
@@ -98,7 +87,7 @@ function generateAccountData() {
     email: email.toLowerCase(),
     first_name: firstName.toLowerCase(),
     last_name: lastName.toLowerCase(),
-    birth_dt: "2000-12-29",
+    birth_dt: `${year}-${month}-${day}`,
     question_code: 1,
     question_answer: randomSurname.toLowerCase(),
   };

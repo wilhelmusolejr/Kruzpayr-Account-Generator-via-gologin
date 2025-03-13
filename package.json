@@ -1,8 +1,10 @@
 {
   "dependencies": {
     "axios": "^1.8.3",
+    "csv-parser": "^3.2.0",
     "dotenv": "^16.4.7",
     "gologin": "^2.1.14",
+    "json2csv": "^6.0.0-alpha.2",
     "puppeteer": "^24.4.0"
   },
   "type": "module"
