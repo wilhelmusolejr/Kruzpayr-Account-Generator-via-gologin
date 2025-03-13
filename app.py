@@ -4,6 +4,14 @@ from pynput import mouse
 import pyautogui
 import pandas as pd
 
+import asyncio
+import httpx
+import pandas as pd
+import random
+import datetime
+
+from account_info_gen import generate_account_data
+from playground import register_user
 
 def run_cf_client():
     print("Running crossfire...")
@@ -128,18 +136,33 @@ def process(data):
 
 
 # Read CSV into DataFrame
-df = pd.read_csv("accounts_database.csv")
-filtered_df = df[df["ECOIN"] == "undefined"]
+# df = pd.read_csv("accounts_database.csv")
+# filtered_df = df[df["ECOIN"] == "undefined"]
 
-for _, account in filtered_df.iterrows():  # Correct way to iterate rows
-    data = {
-        "username": account["USERNAME"],
-        'password': account["PASSWORD"],
-        "ign": account["IGN"]
-    }
-    process(data)
+# for _, account in filtered_df.iterrows():  # Correct way to iterate rows
+#     data = {
+#         "username": account["USERNAME"],
+#         'password': account["PASSWORD"],
+#         "ign": account["IGN"]
+#     }
+#     process(data)
     
-    time.sleep(30)
+#     time.sleep(30)
+
+runOnce = True
+
+while runOnce:
+    account_info = generate_account_data()
+    asyncio.run(register_user(account_info))
+    data = {
+        "username": account_info["user_id"],
+        'password': account_info["user_password"],
+        "ign": account_info["ign"]
+    }
+    
+    process(data)
+    time.sleep(30)  # Wait for 30 seconds
+    runOnce = False
 
 
 
