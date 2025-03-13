@@ -74,7 +74,7 @@ function generateAccountData() {
   let randomDigit = Math.floor(Math.random() * (999 - 100 + 1)) + 100;
 
   let username = `${firstName}${randomDigit}`;
-  let password = `eloeloelo1`;
+  let password = `boktitelo1`;
   let email = `${firstName}${lastName}@gmail.com`;
 
   let month = Math.floor(Math.random() * (10 - 12 + 1)) + 12;
