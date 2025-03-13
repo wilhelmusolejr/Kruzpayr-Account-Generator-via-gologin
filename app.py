@@ -2,6 +2,8 @@ import subprocess
 import time
 from pynput import mouse
 import pyautogui
+import pandas as pd
+
 
 def run_cf_client():
     print("Running crossfire...")
@@ -20,7 +22,7 @@ def login(data):
     pyautogui.moveTo(usernameInput[0],usernameInput[1], duration=0.5)  # Move smoothly to the target
     pyautogui.click()
 
-    time.sleep(2)
+    time.sleep(1)
 
     usernameInput = [905, 647]
     pyautogui.moveTo(usernameInput[0],usernameInput[1], duration=0.5)  # Move smoothly to the target
@@ -28,7 +30,7 @@ def login(data):
     print("Typing username")
     pyautogui.write(data['username'], interval=0.05)
 
-    time.sleep(2)
+    time.sleep(1)
 
     passwordInput = [905, 697]
     pyautogui.moveTo(passwordInput[0],passwordInput[1], duration=0.5)  # Move smoothly to the target
@@ -36,7 +38,7 @@ def login(data):
     print("Typing password")
     pyautogui.write(data['password'], interval=0.05)
 
-    time.sleep(2)
+    time.sleep(1)
 
     loginBtn = [940, 760]
     pyautogui.moveTo(loginBtn[0],loginBtn[1], duration=0.5)  # Move smoothly to the target
@@ -116,12 +118,7 @@ def close_cf_client():
     
     time.sleep(5)
 
-def process():
-    data = {
-        "username": "rafael165",
-        'password': "boktitelo1",
-        "ign": "chin_g2kos"
-    }
+def process(data):
     run_cf_client()
     login(data)
     ignSetUp(data)
@@ -129,9 +126,20 @@ def process():
     luckyRaffle()
     close_cf_client()
 
-# process()    
 
+# Read CSV into DataFrame
+df = pd.read_csv("accounts_database.csv")
+filtered_df = df[df["ECOIN"] == "undefined"]
 
+for _, account in filtered_df.iterrows():  # Correct way to iterate rows
+    data = {
+        "username": account["USERNAME"],
+        'password': account["PASSWORD"],
+        "ign": account["IGN"]
+    }
+    process(data)
+    
+    time.sleep(30)
 
 
 

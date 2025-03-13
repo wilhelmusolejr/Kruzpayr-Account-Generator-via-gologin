@@ -56,16 +56,23 @@ async function registerUser(account_data) {
 
     if (response.data.message === "OK") {
       console.log("✅ Registration Successful");
+      console.log("-- username:", account_data.user_id);
+      console.log("-- password:", account_data.user_password);
 
       const currentDate = new Date();
       const options = { month: "long", day: "numeric", year: "numeric" };
       const formattedDate = currentDate.toLocaleDateString("en-US", options);
 
+      let year = Math.floor(Math.random() * (2024 - 1900 + 1)) + 1900;
+      let randomDigit = Math.floor(Math.random() * (999 - 100 + 1)) + 100;
+
+      let ign = `666.${year}.${randomDigit}`;
+
       let accounts = await readCSV("accounts_database.csv");
       accounts.push({
         USERNAME: account_data.user_id,
         PASSWORD: account_data.user_password,
-        IGN: "undefined",
+        IGN: ign,
         REGISTER_DATE: formattedDate,
         ECOIN: "undefined",
         FIRSTNAME: account_data.first_name,
@@ -88,4 +95,16 @@ async function registerUser(account_data) {
   }
 }
 
-registerUser(account_data);
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const registerMultipleUsers = async (number) => {
+  for (let i = 0; i < number; i++) {
+    let account_data = generateAccountData();
+
+    await registerUser(account_data); // Register user
+    console.log(`⏳ Waiting 5 seconds before next registration...`);
+    await sleep(5000); // Wait 5 seconds
+  }
+};
+
+registerMultipleUsers(20);
