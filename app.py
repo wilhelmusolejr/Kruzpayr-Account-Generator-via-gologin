@@ -15,6 +15,7 @@ from playground import register_user
 
 def run_cf_client():
     print("Running crossfire...")
+    
     game_path = r"C:\Program Files (x86)\Crossfire PH\patcher_cf2.exe"
     working_directory = r"C:\Program Files (x86)\Crossfire PH"
 
