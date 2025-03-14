@@ -120,12 +120,8 @@ def luckyRaffle():
 
 def close_cf_client():
     print("Closing client...")
-    closeClientBtn = [1337, 252]
-    pyautogui.moveTo(closeClientBtn[0],closeClientBtn[1], duration=0.5)  # Move smoothly to the target
-    pyautogui.click()
+    subprocess.run(["taskkill", "/F", "/IM", "crossfire.exe"], shell=True)
     
-    time.sleep(5)
-
 def process(data):
     run_cf_client()
     login(data)
@@ -135,25 +131,12 @@ def process(data):
     close_cf_client()
 
 
-# Read CSV into DataFrame
-# df = pd.read_csv("accounts_database.csv")
-# filtered_df = df[df["ECOIN"] == "undefined"]
-
-# for _, account in filtered_df.iterrows():  # Correct way to iterate rows
-#     data = {
-#         "username": account["USERNAME"],
-#         'password': account["PASSWORD"],
-#         "ign": account["IGN"]
-#     }
-#     process(data)
-    
-#     time.sleep(30)
-
 runOnce = True
 
 while runOnce:
     account_info = generate_account_data()
     asyncio.run(register_user(account_info))
+    
     data = {
         "username": account_info["user_id"],
         'password': account_info["user_password"],
@@ -162,7 +145,6 @@ while runOnce:
     
     process(data)
     time.sleep(30)  # Wait for 30 seconds
-    runOnce = False
 
 
 
