@@ -39,12 +39,12 @@ async function login(PROFILE_ID, account) {
   const page = await browser.newPage();
   await page.goto(homepage_url, { waitUntil: "domcontentloaded" });
 
-  let loginBtnSltr = ".login-btn";
-  await page.waitForSelector(loginBtnSltr, { visible: true });
-  await page.click(loginBtnSltr);
+  // let loginBtnSltr = ".login-btn";
+  // await page.waitForSelector(loginBtnSltr, { visible: true });
+  // await page.click(loginBtnSltr);
 
-  console.log("Going to different page");
-  await new Promise((resolve) => setTimeout(resolve, 10000));
+  // console.log("Going to different page");
+  // await new Promise((resolve) => setTimeout(resolve, 10000));
 
   let toWaitSltr = ".facebook";
   await page.waitForSelector(toWaitSltr, { visible: true, timeout: 60000 });
@@ -96,27 +96,40 @@ async function login(PROFILE_ID, account) {
   }
 
   await page.waitForFunction(
-    () => window.location.href === "https://cfph.onstove.com/",
+    () =>
+      window.location.href ===
+      "https://cfph-goldrush.onstove.com/MyInfo/WinningHistory",
     { timeout: 60000 } // Wait up to 30 seconds
   );
 
-  await page.waitForSelector(".login-member .member-info span", {
+  await page.waitForSelector(".util-area .inner", {
     visible: true,
   });
 
-  const { callname, credits } = await page.evaluate(() => {
-    const spans = document.querySelectorAll(".login-member .member-info span");
-    return {
-      callname: spans[0]?.textContent.trim() || "N/A",
-      credits: spans[1]?.textContent.trim() || "N/A",
-    };
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
+  const callname = await page.evaluate(() => {
+    const element = document.querySelector(".util-area .inner .col.col4");
+    return element ? element.innerText : null;
   });
 
-  console.log("✅ Callname:", callname);
-  console.log("✅ Credits:", credits);
+  if (callname) {
+    const extractedText = callname.split(",").pop().trim();
+    console.log("✅ Extracted Text:", extractedText);
+    account.callname = extractedText;
+  } else {
+    console.log("❌ Element not found!");
+  }
 
-  account.callname = callname;
-  account.credits = credits;
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+
+  const myECoinText = await page.evaluate(() => {
+    const element = document.querySelector(".util-area .e-coin #myECoin");
+    return element ? element.innerText : null;
+  });
+
+  console.log("✅ myECoin Text:", myECoinText);
+  account.credits = myECoinText;
   account.login = true;
 
   // await new Promise((resolve) => setTimeout(resolve, 20000));
