@@ -5,6 +5,7 @@
     "dotenv": "^16.4.7",
     "gologin": "^2.1.14",
     "json2csv": "^6.0.0-alpha.2",
+    "node-fetch": "^3.3.2",
     "puppeteer": "^24.4.0"
   },
   "type": "module"
