@@ -15,39 +15,45 @@ dotenv.config();
 
 const PROFILE_ID_CLONE = process.env.PROFILE_ID_CLONE;
 const TOKEN = process.env.TOKEN;
+let limit = 30;
 
 async function processAccounts() {
   try {
     let accounts = await readCSV("accounts_database.csv");
+    let processed_accounts = [];
 
+    let index = 0;
     for (const account of accounts) {
+      console.log("Processing account:", index, "of ", limit);
       if (account.ECOIN === "undefined") {
-        account.username = account.USERNAME;
-        account.password = account.PASSWORD;
-
         try {
           await cloneGoLoginProfile(PROFILE_ID_CLONE);
           const profile_info = await getLatestProfile();
           const account_data = await login(profile_info.id, account);
 
-          if (account_data.login) {
-            account.ECOIN = account_data.credits;
-            account.IGN = account_data.callname;
-          }
-
-          console.log(account_data);
-
           await deleteProfile(profile_info.id);
+          processed_accounts.push(account_data);
         } catch (error) {
           // account.ISLOGGEDIN = "unknown";
           // console.error("⚠️ Error processing account:", account.EMAIL, error);
+        }
+
+        index++;
+        if (index >= limit) {
+          break;
         }
       }
     }
 
     // Write the updated data back to the CSV file
     await writeCSV("accounts_database.csv", accounts);
+
+    console.clear();
     console.log("✅ CSV file updated!");
+
+    for (const account of processed_accounts) {
+      console.log(account.USERNAME, account.ECOIN);
+    }
   } catch (error) {
     console.error("❌ Failed to read CSV:", error);
   }

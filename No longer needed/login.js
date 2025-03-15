@@ -52,12 +52,12 @@ async function login(PROFILE_ID, account) {
 
   let emailInputSltr = "input#id";
   await page.waitForSelector(emailInputSltr);
-  await page.type(emailInputSltr, account.username, { delay: 100 });
+  await page.type(emailInputSltr, account.USERNAME, { delay: 100 });
   console.log("email input is found");
 
   let passwordInputSltr = "input#password";
   await page.waitForSelector(passwordInputSltr);
-  await page.type(passwordInputSltr, account.password, { delay: 100 });
+  await page.type(passwordInputSltr, account.PASSWORD, { delay: 100 });
   console.log("password input is found");
 
   let loginBtnSltr2 = "button[type='button']";
@@ -65,35 +65,35 @@ async function login(PROFILE_ID, account) {
   await page.focus(loginBtnSltr2);
   await page.click(loginBtnSltr2);
 
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  // await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  const footerSelector = ".stds-dialog-footer";
-  const buttonSelector = ".stds-dialog-footer button";
+  // const footerSelector = ".stds-dialog-footer";
+  // const buttonSelector = ".stds-dialog-footer button";
 
-  // Wait for the footer element to appear (optional: use try-catch to prevent errors if it doesn't exist)
-  const footerExists = await page.$(footerSelector);
+  // // Wait for the footer element to appear (optional: use try-catch to prevent errors if it doesn't exist)
+  // const footerExists = await page.$(footerSelector);
 
-  if (footerExists) {
-    console.log("✅ Footer exists! Clicking the button inside...");
+  // if (footerExists) {
+  //   console.log("✅ Footer exists! Clicking the button inside...");
 
-    // Wait for the button inside the footer to be available
-    await page.waitForSelector(buttonSelector, { visible: true });
+  //   // Wait for the button inside the footer to be available
+  //   await page.waitForSelector(buttonSelector, { visible: true });
 
-    // Click the button inside the footer
-    await page.focus(buttonSelector);
-    await page.click(buttonSelector);
+  //   // Click the button inside the footer
+  //   await page.focus(buttonSelector);
+  //   await page.click(buttonSelector);
 
-    console.log("✅ Button inside footer clicked!");
+  //   console.log("✅ Button inside footer clicked!");
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+  //   await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    let loginBtnSltr2 = "button[type='button']";
-    await page.waitForSelector(loginBtnSltr2, { visible: true });
-    await page.focus(loginBtnSltr2);
-    await page.click(loginBtnSltr2);
-  } else {
-    console.log("❌ Footer does not exist. Skipping button click.");
-  }
+  //   let loginBtnSltr2 = "button[type='button']";
+  //   await page.waitForSelector(loginBtnSltr2, { visible: true });
+  //   await page.focus(loginBtnSltr2);
+  //   await page.click(loginBtnSltr2);
+  // } else {
+  //   console.log("❌ Footer does not exist. Skipping button click.");
+  // }
 
   await page.waitForFunction(
     () =>
@@ -116,7 +116,6 @@ async function login(PROFILE_ID, account) {
   if (callname) {
     const extractedText = callname.split(",").pop().trim();
     console.log("✅ Extracted Text:", extractedText);
-    account.callname = extractedText;
   } else {
     console.log("❌ Element not found!");
   }
@@ -129,7 +128,7 @@ async function login(PROFILE_ID, account) {
   });
 
   console.log("✅ myECoin Text:", myECoinText);
-  account.credits = myECoinText;
+  account.ECOIN = myECoinText;
   account.login = true;
 
   // await new Promise((resolve) => setTimeout(resolve, 20000));
