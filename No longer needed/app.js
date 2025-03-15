@@ -13,9 +13,21 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const PROFILE_ID_CLONE = process.env.PROFILE_ID_CLONE;
+// const PROFILE_ID_CLONE = process.env.PROFILE_ID_CLONE;
+
+const profile_ids = [
+  "67d5bc1e1c7f4b4418eefc6a",
+  "67d3cfc81c7f4b4418d7623f",
+  "67d5bc3069fa345e7832b13d",
+  "67d5bc2c1c7f4b4418eefc8b",
+  "67d5bc2969fa345e7832b132",
+];
+
+const PROFILE_ID_CLONE =
+  profile_ids[Math.floor(Math.random() * profile_ids.length)];
+
 const TOKEN = process.env.TOKEN;
-let limit = 30;
+let limit = 100;
 
 async function processAccounts() {
   try {
