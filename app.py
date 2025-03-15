@@ -136,16 +136,17 @@ runOnce = True
 
 while runOnce:
     account_info = generate_account_data()
-    asyncio.run(register_user(account_info))
-    
-    data = {
-        "username": account_info["user_id"],
-        'password': account_info["user_password"],
-        "ign": account_info["ign"]
-    }
-    
-    process(data)
-    time.sleep(30)  # Wait for 30 seconds
+    result = asyncio.run(register_user(account_info))
+
+    if result:
+        data = {
+            "username": account_info["user_id"],
+            'password': account_info["user_password"],
+            "ign": account_info["ign"]
+        }
+
+        process(data)
+        time.sleep(30)# Wait for 30 seconds
 
 
 

@@ -98,8 +98,11 @@ async def register_user(account_data):
 
                 # Write updated data to CSV
                 await write_csv("accounts_database.csv", accounts)
+                return True
 
         except httpx.HTTPStatusError as e:
             print("❌ Registration Failed:", e.response.text)
+            return False
         except Exception as e:
             print("❌ Registration Failed:", str(e))
+

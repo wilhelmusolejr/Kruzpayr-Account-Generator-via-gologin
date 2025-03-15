@@ -8,14 +8,21 @@ first_names = [
     "Angela", "Angoola", "Dolores", "Beatriz"
 ]
 
+demon_names = [
+    "Azazel", "Belial", "Lilith", "Asmodeus", "Baal", 
+    "Beelzebub", "Leviathan", "Mammon", "Astaroth", "Abaddon", 
+    "Baphomet", "Moloch", "Dagon", "Nyx", "Orobas", 
+    "Zagan", "Andras", "Pazuzu", "Forneus", "Gusion"
+]
+
 last_names = [
-    "Dela Cruz", "Santos", "Reyes", "Garcia", "Mendoza", "Torres", "Gonzales",
+    "DelaCruz", "Santos", "Reyes", "Garcia", "Mendoza", "Torres", "Gonzales",
     "Fernandez", "Ramos", "Aquino", "Castro", "Domingo", "Villanueva",
     "Aguilar", "Bautista", "Salazar", "Navarro", "Rivera", "Velasco", "Ocampo"
 ]
 
 surnames = [
-    "Dela Cruz", "Reyes", "Santos", "Garcia", "Mendoza", "Torres", "Gonzales",
+    "Delakruz", "Reyes", "Santos", "Garcia", "Mendoza", "Torres", "Gonzales",
     "Ramos", "Fernandez", "Castro", "Domingo", "Aguilar", "Lopez", "Navarro",
     "Villanueva", "Cortez", "Alvarez", "Bautista", "Salazar", "Morales"
 ]
@@ -25,14 +32,23 @@ def generate_account_data():
     last_name = random.choice(last_names)
     random_surname = random.choice(surnames)
     random_digit = random.randint(100, 999)
+    
+    listUserName = []
+    listUserName.append(f"{first_name}{random_digit}")
+    listUserName.append(f"{demon_names }{random_digit}")
+    listUserName.append(f"{random_digit}{demon_names}")
+    listUserName.append(f"{last_names}{random_digit}")
+    listUserName.append(f"{surnames}{random_digit}")
 
-    username = f"{first_name}{random_digit}".lower()
+    username = random.choice(listUserName).lower()
     password = "boktitelo1".lower()
     email = f"{first_name}{last_name}@gmail.com".replace(" ", "").lower()
 
     month = random.randint(10, 12)
     day = random.randint(20, 29)
     year = random.randint(1990, 2001)
+    
+    random_year = random.randint(1000, 9999)
 
     return {
         "user_id": username,
@@ -42,7 +58,7 @@ def generate_account_data():
         "last_name": last_name.lower(),
         "birth_dt": f"{year}-{month:02d}-{day:02d}",
         "question_code": 1,
-        'ign': f"666.{year}.{random_digit}",
+        'ign': f"666.{random_year}.{random_digit}",
         "question_answer": random_surname.lower(),
     }
 
