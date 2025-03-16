@@ -25,13 +25,13 @@ async function cloneGoLoginProfile(profileId) {
 
     const text = await response.text();
     if (!text) {
-      console.log("Okay clone profile");
+      // console.log("Okay clone profile");
       return true;
     }
 
     try {
       const data = JSON.parse(text);
-      console.log("Cloned Profile:", data);
+      // console.log("Cloned Profile:", data);
       return data;
     } catch (error) {
       console.error("Error parsing JSON:", error, "Response:", text);
