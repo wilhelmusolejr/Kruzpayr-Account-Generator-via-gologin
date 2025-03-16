@@ -125,6 +125,11 @@ async function login(PROFILE_ID, account) {
     await browser.close();
     await GL.stop();
     return false;
+  } else {
+    await page.close();
+    await browser.close();
+    await GL.stop();
+    return false;
   }
 
   await page.waitForSelector(".util-area .inner", {

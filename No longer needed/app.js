@@ -27,26 +27,35 @@ async function processAccounts() {
     let processed_accounts = [];
 
     let index = 0;
+    let limit = 50;
     for (const account of accounts) {
       if (account.ECOIN === "undefined") {
         console.clear();
-        console.log("Processing account:", index, "of ", accounts.length);
+        console.log("Processing account:", index, "of ", limit);
 
         const PROFILE_ID_CLONE =
           profile_ids[Math.floor(Math.random() * profile_ids.length)];
         await cloneGoLoginProfile(PROFILE_ID_CLONE);
+        console.log("Profile cloned successfully");
         const profile_info = await getLatestProfile();
 
-        const account_data = await login(profile_info.id, account);
-        console.log("Found ecoin:", account_data.ECOIN);
+        try {
+          const account_data = await login(profile_info.id, account);
+          console.log("Found ecoin:", account.ECOIN);
 
-        await deleteProfile(profile_info.id);
+          await deleteProfile(profile_info.id);
 
-        if (account_data) {
-          processed_accounts.push(account_data);
+          if (account_data) {
+            processed_accounts.push(account_data);
+          }
+        } catch (error) {
+          console.error("❌ Error processing account:", error);
         }
 
         index++;
+        if (index >= limit) {
+          break;
+        }
       }
     }
 
@@ -59,7 +68,7 @@ async function processAccounts() {
       console.log(account.USERNAME, account.ECOIN);
     }
   } catch (error) {
-    console.error("❌ Failed to read CSV:", error);
+    console.error("❌ ERROR:", error);
   }
 
   return;
