@@ -46,7 +46,7 @@ async function processAccounts() {
           await deleteProfile(profile_info.id);
 
           if (account_data) {
-            processed_accounts.push(account_data);
+            processed_accounts.push(account);
           }
         } catch (error) {
           console.error("❌ Error processing account:", error);
