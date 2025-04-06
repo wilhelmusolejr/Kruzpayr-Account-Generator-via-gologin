@@ -3,12 +3,6 @@ import { getLatestProfile } from "./list_profile.js";
 import { readCSV, writeCSV } from "./database_reader.js";
 
 import login from "./login.js";
-
-// import getProfile from "./get_profile.js";
-// import updateProfile from "./update_profile.js";
-// import { checkProxy, updateProxy } from "./proxy.js";
-// import { getRandomProxy } from "./proxy.js";
-
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -27,11 +21,12 @@ async function processAccounts() {
     let processed_accounts = [];
 
     let index = 0;
-    let limit = 50;
+    let limit = 1;
     for (const account of accounts) {
       if (account.ECOIN === "undefined") {
         console.clear();
         console.log("Processing account:", index, "of ", limit);
+        // console.log("Processing account:", index, "of ", accounts.length);
 
         const PROFILE_ID_CLONE =
           profile_ids[Math.floor(Math.random() * profile_ids.length)];
