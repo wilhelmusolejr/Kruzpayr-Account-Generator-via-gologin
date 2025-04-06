@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// const PROFILE_ID_CLONE = process.env.PROFILE_ID_CLONE;
+const PROFILE_ID_CLONE = process.env.PROFILE_ID_CLONE;
 const TOKEN = process.env.TOKEN;
 const profile_ids = [
   "67d3cfc81c7f4b4418d7623f",
@@ -21,22 +21,21 @@ async function processAccounts() {
     let processed_accounts = [];
 
     let index = 0;
-    let limit = 1;
+    let limit = 10;
     for (const account of accounts) {
-      if (account.ECOIN === "undefined") {
+      if (account.ECOIN === "undefined" || account.ECOIN > 0) {
         console.clear();
         console.log("Processing account:", index, "of ", limit);
         // console.log("Processing account:", index, "of ", accounts.length);
 
-        const PROFILE_ID_CLONE =
-          profile_ids[Math.floor(Math.random() * profile_ids.length)];
+        // const PROFILE_ID_CLONE =
+        //   profile_ids[Math.floor(Math.random() * profile_ids.length)];
         await cloneGoLoginProfile(PROFILE_ID_CLONE);
-        console.log("Profile cloned successfully");
         const profile_info = await getLatestProfile();
 
         try {
           const account_data = await login(profile_info.id, account);
-          console.log("Found ecoin:", account.ECOIN);
+          console.log("Gold coin:", account.GOLD_COIN);
 
           await deleteProfile(profile_info.id);
 
