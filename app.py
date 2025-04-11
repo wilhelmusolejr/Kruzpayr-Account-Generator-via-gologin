@@ -144,9 +144,11 @@ while runOnce:
             'password': account_info["user_password"],
             "ign": account_info["ign"]
         }
+        
+        runOnce = False
 
-        process(data)
-        time.sleep(30)# Wait for 30 seconds
+        # process(data)
+        # time.sleep(30)# Wait for 30 seconds
 
 
 
