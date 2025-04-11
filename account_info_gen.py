@@ -39,9 +39,12 @@ def generate_account_data():
     listUserName.append(f"{random_digit}{demon_names}")
     listUserName.append(f"{last_names}{random_digit}")
     listUserName.append(f"{surnames}{random_digit}")
+    
+    digit1 = random.randint(1, 9)
+    digit2 = random.randint(100, 999)
 
     username = random.choice(listUserName).lower()
-    password = "boktitelo1".lower()
+    password = f"${digit2}{first_name}{digit1}".lower()
     email = f"{first_name}{last_name}@gmail.com".replace(" ", "").lower()
 
     month = random.randint(10, 12)
